@@ -21,7 +21,7 @@ public class BanckController {
         return banckService.findByClientId(clientId);
     }
 
-    @PostMapping("/NewBankAccount")
+    @PostMapping("/BankAccount")
     public Mono<BankAccount> createBanckAccount (@PathVariable BankAccount banckAccount){
         return banckService.createBankAccount(banckAccount);
     }
@@ -31,7 +31,6 @@ public class BanckController {
         bankAccount.setId(id);
         return banckService.updateBankAccount(bankAccount).flatMap(response -> Mono.just(ResponseEntity.ok(response)))
                 .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
-
     }
 
     @DeleteMapping ("/{id}")
@@ -39,6 +38,7 @@ public class BanckController {
         return banckService.deleteBankAccount(id).flatMap(response -> Mono.just(ResponseEntity.ok(response)))
                 .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
     }
+
     @GetMapping("/{id}")
     public Mono<ResponseEntity<BankAccount>> getBankAccountById(@PathVariable("id") String id){
 
@@ -50,7 +50,6 @@ public class BanckController {
     public Mono<ResponseEntity<BankAccount>> addSigner(@PathVariable("id") String id, @RequestBody Signer signer){
         return banckService.addSigner(id, signer).flatMap(response -> Mono.just(ResponseEntity.ok(response)))
                 .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
-
     }
 
     @PutMapping("/{id}/signer/update")
@@ -60,8 +59,9 @@ public class BanckController {
     }
 
     @PutMapping("/{id}/signer/delete/{dni}")
-    public Mono<ResponseEntity<BankAccount>> deleteSigner(@PathVariable("id") String id, @PathVariable("dni") String dni){
+    public Mono<ResponseEntity<BankAccount>> deleteSigner(@PathVariable("id") String id, @PathVariable("dni") String dni) {
         return banckService.deleteSigner(id, dni).flatMap(response -> Mono.just(ResponseEntity.ok(response)))
                 .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
+    }
 
 }
